@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Button, Text, TextInput } from 'react-native';
 
 export default class LoginActivity extends Component {
 
@@ -10,7 +10,7 @@ export default class LoginActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        UserLogin: '',   
+        UserLogin: '',
         UserPassword: ''
       }
     }
@@ -41,10 +41,9 @@ export default class LoginActivity extends Component {
   }).then((response) => response.json())
         .then((responseJson) => {
          if(responseJson.success){
-              this.props.navigation.navigate('Second', { Login: UserLogin });
+              this.props.navigation.navigate('Home', { Login: UserLogin });
           }
           else{
-            console.log(responseJson.success)
             alert("Vos informations de connexion sont incorrectes");
           }
 
@@ -72,6 +71,12 @@ export default class LoginActivity extends Component {
           secureTextEntry={true}
         />
         <Button title="Se connecter" color="#2196F3" onPress={this.UserLoginFunction} />
+        <View style={styles.row}>
+          <Text style={styles.label}>Vous n'avez pas de compte? </Text>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+          <Text style={styles.link}>Inscrivez-vous</Text>
+          </TouchableOpacity>
+        </View>
        </View>
      );
   }
@@ -94,7 +99,10 @@ const styles = StyleSheet.create({
     marginBottom:7,
     height:40,
     borderWidth:1,
-    borderColor: '#2196F3',
+    borderColor: '#2196F3',  
     borderRadius:5
+  },
+  link: {
+    fontWeight: 'bold',
   }
 });

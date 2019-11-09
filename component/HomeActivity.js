@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button} from 'react-native';
 
-export default class SecondPage extends Component
+export default class HomeActivity extends Component
 {
   static navigationOptions =
   {
-    title : 'SecondPage',
+    title : 'Home',
   };
 
   render()
@@ -15,7 +15,6 @@ export default class SecondPage extends Component
       <View style = { styles.MainContainer }>
             <Text> {this.props.navigation.state.params.Login} </Text>
             <Text style = {styles.TextComponentStyle}> </Text>
-            <Button title="Se déconnecter" onPress={ () => goBack(null) } />
       </View>
     );
   }

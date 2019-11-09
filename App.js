@@ -4,12 +4,14 @@ import { createAppContainer } from 'react-navigation';
 
 
 import LoginActivity from './component/LoginActivity';
-import SecondPage from './component/SecondPage';
+import HomeActivity from './component/HomeActivity';
+import RegisterActivity from './component/RegisterActivity';
 
 const RootStack = createStackNavigator({
     First: { screen: LoginActivity },
-    Second: { screen: SecondPage }
-  },     
+    Home: { screen: HomeActivity },
+    Register: { screen: RegisterActivity },
+  },
   {
     initialRouteName: 'First',
   }
