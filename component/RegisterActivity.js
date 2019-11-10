@@ -55,7 +55,7 @@ export default class RegisterActivity extends Component {
 
           }).catch((error) => {
             console.error(error);
-          });  
+          });
   }
 
   render()
@@ -68,8 +68,12 @@ export default class RegisterActivity extends Component {
           underlineColorAndroid='transparent'
           style={styles.TextInputStyleClass}
           onChangeText={UserEmail => this.setState({UserEmail})}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          textContentType="emailAddress"
+          keyboardType="email-address"
         />
-        <TextInput
+        <TextInput  
           placeholder="Identifiant"
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
