@@ -24,7 +24,7 @@ export default class LoginActivity extends Component {
       'password': UserPassword,
     };
 
-    var formBody = [];
+    var formBody = [];             
     for (var property in details) {
       var encodedKey = encodeURIComponent(property);
       var encodedValue = encodeURIComponent(details[property]);

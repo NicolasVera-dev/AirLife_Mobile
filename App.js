@@ -15,6 +15,6 @@ const RootStack = createStackNavigator({
   {
     initialRouteName: 'First',
   }
-);
+);      
 const App = createAppContainer(RootStack);
 export default App;
