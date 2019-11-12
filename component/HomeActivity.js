@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Button} from 'react-native';
+import { StyleSheet, View, Text, Button, ActivityIndicator, FlatList, TouchableOpacity} from 'react-native';
 
 export default class HomeActivity extends Component
 {
@@ -8,28 +8,85 @@ export default class HomeActivity extends Component
     title : 'Home',
   };
 
-  render()
-  {
-
-    return(
-      <View style = { styles.MainContainer }>
-            <Text> {this.props.navigation.state.params.Login} </Text>
-            <Text style = {styles.TextComponentStyle}> </Text>
-      </View>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      dataSource:[]
+    }
   }
+
+  componentDidMount(){
+
+    var details = {
+      'username': this.props.navigation.state.params.Login,
+    };
+
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    fetch("http://192.168.1.14:9090/datasByUsers/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody
+    }).then(response => response.json())
+      .then((responseJson)=> {
+        this.setState({
+          loading: false,
+          dataSource: responseJson
+        })
+      })
+      .catch(error=>console.log(error)) //to catch the errors if any
+    }
+    FlatListItemSeparator = () => {
+      return (
+        <View style={{
+          height: .5,
+          width:"100%",
+          backgroundColor:"rgba(0,0,0,0.5)",
+        }}
+        />
+      );
+    }
+    renderItem=(data)=>
+    <TouchableOpacity style={styles.list}>
+    <Text style={styles.lightText}>{data.item.nameSensor}</Text>
+    <Text style={styles.lightText}>{data.item.datasensor}</Text>
+    <Text style={styles.lightText}>{data.item.datetimedata}</Text></TouchableOpacity>
+    render(){
+
+        return(
+          <View style={styles.container}>
+          <FlatList
+          data= {this.state.dataSource}
+          ItemSeparatorComponent = {this.FlatListItemSeparator}
+          renderItem= {item=> this.renderItem(item)}
+          keyExtractor= {item=>item.iddata.toString()}
+          />
+          </View>
+        )}
 }
-
 const styles = StyleSheet.create({
-  MainContaineur:{
-    justifyContent:'center',
-    flex:1,
-    margin:10,
-  },
-  TextComponentStyle:{
-    fontSize:20,
-    color: "#000",
-    textAlign:'center',
-    marginBottom:15
-  }
+container: {
+  flex: 1,
+  backgroundColor: "#fff"
+},
+loader:{
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#fff"
+},
+list:{
+  paddingVertical: 4,
+  margin: 5,
+  backgroundColor: "#fff"
+}
 });

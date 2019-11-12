@@ -59,6 +59,7 @@ export default class LoginActivity extends Component {
         <Text style={styles.TextComponentStyle}>Connexion</Text>
         <TextInput
           placeholder="Entrez votre identifiant (Mail/Login)"
+          autoCapitalize="none"
           onChangeText={UserLogin => this.setState({UserLogin})}
           underlineColorAndroid='transparent'
           style={styles.TextInputStyleClass}
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     marginBottom:7,
     height:40,
     borderWidth:1,
-    borderColor: '#2196F3',  
+    borderColor: '#2196F3',
     borderRadius:5
   },
   link: {
