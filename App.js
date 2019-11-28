@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-
+import { createDrawerNavigator } from 'react-navigation-drawer';
 
 import LoginActivity from './component/LoginActivity';
 import HomeActivity from './component/HomeActivity';
@@ -15,6 +15,8 @@ const RootStack = createStackNavigator({
   {
     initialRouteName: 'First',
   }
-);      
+);
+
 const App = createAppContainer(RootStack);
+
 export default App;

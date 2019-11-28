@@ -29,7 +29,7 @@ export default class RegisterActivity extends Component {
     const { UserAddress } = this.state ;
     const { UserTelphone } = this.state ;
 
-    fetch('http://192.168.1.14:9090/inscription/', {
+    fetch('http://192.168.43.41:9090/inscription/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -45,17 +45,16 @@ export default class RegisterActivity extends Component {
         numTel: UserTelphone
       })
     }).then((response) => response.json())
-          .then((responseJson) => {
-           if(responseJson.success){
-                this.props.navigation.navigate('First');
-            }
-            else{
-              alert("Vous n'avez pas pu être enregistré");
-            }
-
-          }).catch((error) => {
-            console.error(error);
-          });
+      .then((responseJson) => {
+        if(responseJson.success){
+          this.props.navigation.navigate('First');
+        }
+        else{
+          alert("Vous n'avez pas pu être enregistré");
+        }
+        }).catch((error) => {
+          console.error(error);
+        });
   }
 
   render()
@@ -73,7 +72,7 @@ export default class RegisterActivity extends Component {
           textContentType="emailAddress"
           keyboardType="email-address"
         />
-        <TextInput  
+        <TextInput
           placeholder="Identifiant"
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
