@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
-import { createDrawerNavigator } from 'react-navigation-drawer';
 
-
-export default class HomeActivity extends Component
-{
-  static navigationOptions = {
-    title : 'Home',
-  };
+export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -29,6 +23,8 @@ export default class HomeActivity extends Component
     }
     formBody = formBody.join("&");
 
+    //192.168.1.14
+    //192.168.43.41
     fetch("http://192.168.43.41:9090/datasByUsers/", {
       method: 'POST',
       headers: {
@@ -62,17 +58,17 @@ export default class HomeActivity extends Component
       <Text style={styles.lightText}>{data.item.datetimedata}</Text>
     </TouchableOpacity>
 
-    render(){
-      return(
-        <View style={styles.container}>
-          <FlatList
-            data= {this.state.dataSource}
-            ItemSeparatorComponent = {this.FlatListItemSeparator}
-            renderItem= {item=> this.renderItem(item)}
-            keyExtractor= {item=>item.iddata.toString()}
-          />
-        </View>
-      )
+    render() {
+        return (
+          <View style={styles.container}>
+            <FlatList
+              data= {this.state.dataSource}
+              ItemSeparatorComponent = {this.FlatListItemSeparator}
+              renderItem= {item=> this.renderItem(item)}
+              keyExtractor= {item=>item.iddata.toString()}
+            />
+          </View>
+        );
     }
 }
 

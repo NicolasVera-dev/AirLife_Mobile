@@ -1,22 +1,31 @@
-import React, { Component } from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
-import LoginActivity from './component/LoginActivity';
-import HomeActivity from './component/HomeActivity';
-import RegisterActivity from './component/RegisterActivity';
+import { TabScreen } from './src/navigator/TabScreen'
+import LoginScreen from './src/screens/auth/LoginScreen'
+import RegisterScreen from './src/screens/auth/RegisterScreen'
+import AuthLoadingScreen from './src/screens/AuthLoadingScreen'
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen'
 
-const RootStack = createStackNavigator({
-    First: { screen: LoginActivity },
-    Home: { screen: HomeActivity },
-    Register: { screen: RegisterActivity },
+const AppStack = createStackNavigator({ TabScreen });
+
+const AuthStack = createStackNavigator({
+  Signin: LoginScreen,
+  Signup: {
+    screen:RegisterScreen
   },
-  {
-    initialRouteName: 'First',
+  ForgotPassword : {
+    screen:ForgotPasswordScreen
   }
-);
+});
 
-const App = createAppContainer(RootStack);
-
-export default App;
+export default createAppContainer(
+  createSwitchNavigator({
+        Starter: AuthLoadingScreen,
+        App: AppStack,
+        Auth: AuthStack
+    },
+    {
+        initialRouteName: 'Starter'
+    }
+));

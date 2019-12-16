@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Button, Text, TextInput } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import Background from '../../components/Background';
+import Logo from '../../components/Logo';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+import TextInput from '../../components/TextInput';
+import BackButton from '../../components/BackButton';
+import { theme } from '../../core/theme';
+import { emailValidator, passwordValidator } from '../../core/utils';
 
-export default class LoginActivity extends Component
-{
+export default class LoginScreen extends Component {
+
   static navigationOptions = {
-    title: 'LoginActivity',
+    header: null,
   };
 
   constructor(props) {
@@ -29,7 +37,8 @@ export default class LoginActivity extends Component
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-
+    //192.168.1.14
+    //192.168.43.41
     fetch('http://192.168.43.41:9090/login/', {
       method: 'POST',
       headers: {
@@ -51,8 +60,12 @@ export default class LoginActivity extends Component
 
   render() {
     return(
-      <View style={styles.MainContaineur}>
-        <Text style={styles.TextComponentStyle}>Connexion</Text>
+      <Background>
+
+        <Logo />
+
+        <Header>Connexion</Header>
+
         <TextInput
           placeholder="Entrez votre identifiant (Mail/Login)"
           autoCapitalize="none"
@@ -60,6 +73,7 @@ export default class LoginActivity extends Component
           underlineColorAndroid='transparent'
           style={styles.TextInputStyleClass}
         />
+
         <TextInput
           placeholder="Entrez votre mot de passe"
           underlineColorAndroid="transparent"
@@ -67,39 +81,47 @@ export default class LoginActivity extends Component
           style={styles.TextInputStyleClass}
           secureTextEntry={true}
         />
-        <Button title="Se connecter" color="#2196F3" onPress={this.UserLoginFunction} />
+
+        <View style={styles.forgotPassword}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('ForgotPassword')}
+          >
+            <Text style={styles.label}>Mot de passe oublié</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Button mode="contained" onPress={this.UserLoginFunction}>
+          Se connecter
+        </Button>
+
         <View style={styles.row}>
           <Text style={styles.label}>Vous n'avez pas de compte? </Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
             <Text style={styles.link}>Inscrivez-vous</Text>
           </TouchableOpacity>
         </View>
-      </View>
+
+      </Background>
     );
   }
 }
 
+
 const styles = StyleSheet.create({
-  MainContaineur:{
-    justifyContent:'center',
-    flex:1,
-    margin:10,
+  forgotPassword: {
+    width: '100%',
+    alignItems: 'flex-end',
+    marginBottom: 24,
   },
-  TextComponentStyle:{
-    fontSize:20,
-    color: "#000",
-    textAlign:'center',
-    marginBottom:15
+  row: {
+    flexDirection: 'row',
+    marginTop: 4,
   },
-  TextInputStyleClass:{
-    textAlign:'center',
-    marginBottom:7,
-    height:40,
-    borderWidth:1,
-    borderColor: '#2196F3',
-    borderRadius:5
+  label: {
+    color: theme.colors.secondary,
   },
   link: {
     fontWeight: 'bold',
-  }
+    color: theme.colors.primary,
+  },
 });
