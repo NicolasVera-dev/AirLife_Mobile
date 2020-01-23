@@ -26,7 +26,7 @@ export default class RegisterScreen extends Component {
         UserAddress: '',
         UserTelphone: '',
     }
-  }
+  }        
 
   UserRegisterFunction = () =>{
     const { UserLogin } = this.state ;
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
   contentContainer: {
-    width : 250
+    width : 280
   },
   logo: {
     marginTop: 20

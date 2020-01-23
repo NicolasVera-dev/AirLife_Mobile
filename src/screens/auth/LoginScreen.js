@@ -8,6 +8,8 @@ import TextInput from '../../components/TextInput';
 import BackButton from '../../components/BackButton';
 import { theme } from '../../core/theme';
 import { emailValidator, passwordValidator } from '../../core/utils';
+import { NavigationActions } from 'react-navigation';
+
 
 export default class LoginScreen extends Component {
 
@@ -48,6 +50,11 @@ export default class LoginScreen extends Component {
     }).then((response) => response.json())
       .then((responseJson) => {
       if(responseJson.success){
+        const setParamsAction = NavigationActions.setParams({
+          params: { Login: UserLogin },
+          key: 'Sensor',
+        });
+        this.props.navigation.dispatch(setParamsAction);
         this.props.navigation.navigate('Home', { Login: UserLogin });
       }
       else{

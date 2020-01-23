@@ -1,38 +1,90 @@
 import React from 'react';
-import {StyleSheet, View, Text, AsyncStorage} from 'react-native';
+import { StyleSheet, View, Text, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
 
 export default class SensorScreen extends React.Component {
 
-  static navigationOptions = {
-    header: null,
-  };
-
-    constructor() {
-        super();
-        this.state = {
-            name: ''
-        };
-        this._bootstrap();
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      dataSource:[]
     }
+  }
 
-    _bootstrap = async () => {
-        const userName = await AsyncStorage.getItem('userName');
-        this.setState({name: userName});
+  componentDidMount(){
+    var details = {
+      'username': this.props.navigation.getParam('Login'),
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
     }
+    formBody = formBody.join("&");
+
+    //192.168.1.14
+    //192.168.43.41
+    fetch("http://192.168.43.41:9090/sensorsByUsers/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody
+    }).then(response => response.json())
+      .then((responseJson)=> {
+        this.setState({
+          loading: false,
+          dataSource: responseJson
+        })
+      })
+      .catch(error=>console.log(error))
+  }
+
+  FlatListItemSeparator = () => {
+    return (
+      <View style={{
+        height: .5,
+        width:"100%",
+        backgroundColor:"rgba(0,0,0,0.5)",
+      }}/>
+    );
+  }
+
+  renderItem=(data)=>
+    <TouchableOpacity style={styles.list}>
+      <Text style={styles.lightText}>{data.item.nameSensor}</Text>
+      <Text style={styles.lightText}>{data.item.libelle}</Text>
+    </TouchableOpacity>
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Capteurs</Text>
-            </View>
+          <View style={styles.container}>
+            <FlatList
+              data= {this.state.dataSource}
+              ItemSeparatorComponent = {this.FlatListItemSeparator}
+              renderItem= {item=> this.renderItem(item)}
+              keyExtractor= {item=>item.nameSensor.toString()}
+            />
+          </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
+  loader:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+  list:{
+    paddingVertical: 4,
+    margin: 5,
+    backgroundColor: "#fff"
+  }
 });
