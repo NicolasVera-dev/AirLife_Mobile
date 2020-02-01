@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
 
     //192.168.1.14
     //192.168.43.41
-    fetch("http://192.168.43.41:9090/datasByUsers/", {
+    fetch("http://192.168.1.14:9090/datasByUsers/", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -70,7 +70,7 @@ export default class HomeScreen extends React.Component {
           </View>
         );
     }
-}     
+}
 
 const styles = StyleSheet.create({
   container: {

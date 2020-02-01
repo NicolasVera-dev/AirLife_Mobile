@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
 
 export default class SensorScreen extends React.Component {
 
@@ -7,6 +7,7 @@ export default class SensorScreen extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      IdSensor : '',
       dataSource:[]
     }
   }
@@ -25,7 +26,7 @@ export default class SensorScreen extends React.Component {
 
     //192.168.1.14
     //192.168.43.41
-    fetch("http://192.168.43.41:9090/sensorsByUsers/", {
+    fetch("http://192.168.1.14:9090/sensorsByUsers/", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,6 +39,40 @@ export default class SensorScreen extends React.Component {
           dataSource: responseJson
         })
       })
+      .catch(error=>console.log(error))
+  }
+
+  AddSensorFunction = () =>{
+    const { IdSensor } = this.state ;
+    var details = {
+      'idsensor' : IdSensor,
+      'username': this.props.navigation.getParam('Login'),
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    //192.168.1.14
+    //192.168.43.41
+    fetch("http://192.168.1.14:9090/sensors/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody
+    }).then(response => response.json())
+      .then((responseJson) => {
+        if(responseJson.success){
+          alert("Le capteur a bien été ajouté");
+        }
+        else{
+          alert("Le capteur n'a pas été ajouté");
+        }
+        })
       .catch(error=>console.log(error))
   }
 
@@ -65,6 +100,15 @@ export default class SensorScreen extends React.Component {
               ItemSeparatorComponent = {this.FlatListItemSeparator}
               renderItem= {item=> this.renderItem(item)}
               keyExtractor= {item=>item.nameSensor.toString()}
+              <Text>-</Text>
+            />
+            <TextInput
+              placeholder="Entrez l'id de votre capteur"
+              onChangeText={IdSensor => this.setState({IdSensor})}
+            />
+            <Button
+              onPress={this.AddSensorFunction}
+              title="Ajouter le capteur"
             />
           </View>
         );
@@ -73,7 +117,7 @@ export default class SensorScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1, 
     backgroundColor: "#fff"
   },
   loader:{

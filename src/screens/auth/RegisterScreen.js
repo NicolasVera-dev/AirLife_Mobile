@@ -26,7 +26,7 @@ export default class RegisterScreen extends Component {
         UserAddress: '',
         UserTelphone: '',
     }
-  }        
+  }
 
   UserRegisterFunction = () =>{
     const { UserLogin } = this.state ;
@@ -39,7 +39,7 @@ export default class RegisterScreen extends Component {
 
     //192.168.1.14
     //192.168.43.41
-    fetch('http://192.168.43.41:9090/inscription/', {
+    fetch('http://192.168.1.14:9090/inscription/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -39,9 +39,9 @@ export default class LoginScreen extends Component {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    //192.168.1.14
+    //192.168.1.14  
     //192.168.43.41
-    fetch('http://192.168.43.41:9090/login/', {
+    fetch('http://192.168.1.14:9090/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
