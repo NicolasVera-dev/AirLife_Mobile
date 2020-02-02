@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, ActivityIndicator, FlatList, TouchableOpacity, Container, Alert} from 'react-native';
 import Header from '../components/Header';
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 
@@ -45,7 +45,7 @@ export default class SensorScreen extends React.Component {
         })
       })
       .catch(error=>console.log(error))
-  }       
+  }
 
   AddSensorFunction = () =>{
     const { IdSensor } = this.state ;
@@ -88,6 +88,25 @@ export default class SensorScreen extends React.Component {
       this.componentDidMount();
     })
   }
+
+  controlDeleteSensor = (data) => {
+    Alert.alert(
+      //title
+      'Attention',
+      //body
+      'Êtes-vous sûr de vouloir supprimer ce capteur?',
+      [
+        { text: 'Oui', onPress: () => this.DeleteSensorFunction(data) },
+        {
+          text: 'Non',
+          onPress: () => console.log('Annulation'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false }
+      //clicking out side of alert will not cancel
+    );
+  };
 
   DeleteSensorFunction = (data) =>{
     var details = {
@@ -148,7 +167,7 @@ export default class SensorScreen extends React.Component {
               renderItem= {item=> (
                 <View>
                   {this.renderItem(item)}
-                  <Ionicons style={styles.trash} onPress={() => this.DeleteSensorFunction(item)} name="ios-trash" color={'red'} size={25} />
+                  <Ionicons style={styles.trash} onPress={() => this.controlDeleteSensor(item)} name="ios-trash" color={'red'} size={25} />
                 </View>
               )}
               keyExtractor= {item=>item.idsensor.toString()}
