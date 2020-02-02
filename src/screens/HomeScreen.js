@@ -7,6 +7,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      refreshing: true,
       dataSource:[]
     }
   }
@@ -35,10 +36,19 @@ export default class HomeScreen extends React.Component {
       .then((responseJson)=> {
         this.setState({
           loading: false,
+          refreshing: false,
           dataSource: responseJson
         })
       })
       .catch(error=>console.log(error))
+  }
+
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true
+    }, () => {
+      this.componentDidMount();
+    })
   }
 
   FlatListItemSeparator = () => {
@@ -66,6 +76,8 @@ export default class HomeScreen extends React.Component {
               ItemSeparatorComponent = {this.FlatListItemSeparator}
               renderItem= {item=> this.renderItem(item)}
               keyExtractor= {item=>item.iddata.toString()}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
             />
           </View>
         );

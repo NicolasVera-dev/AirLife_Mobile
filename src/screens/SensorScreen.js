@@ -8,7 +8,8 @@ export default class SensorScreen extends React.Component {
     this.state = {
       loading: true,
       IdSensor : '',
-      dataSource:[]
+      dataSource:[],
+      refreshing: false
     }
   }
 
@@ -36,6 +37,7 @@ export default class SensorScreen extends React.Component {
       .then((responseJson)=> {
         this.setState({
           loading: false,
+          refreshing: false,
           dataSource: responseJson
         })
       })
@@ -76,6 +78,47 @@ export default class SensorScreen extends React.Component {
       .catch(error=>console.log(error))
   }
 
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true
+    }, () => {
+      this.componentDidMount();
+    })
+  }
+
+  DeleteSensorFunction = (data) =>{
+    var details = {
+      'idsensor' : data.item.idsensor,
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    //192.168.1.14
+    //192.168.43.41
+    fetch("http://192.168.1.14:9090/deleteSensor/", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody
+    }).then(response => response.json())
+      .then((responseJson) => {
+        if(responseJson.success){
+          this.handleRefresh();
+          console.log("Le capteur a bien été supprimé");
+        }
+        else{
+          console.log("Le capteur n'a pas été supprimé");
+        }
+        })
+      .catch(error=>console.log(error))
+  }
+
   FlatListItemSeparator = () => {
     return (
       <View style={{
@@ -98,9 +141,15 @@ export default class SensorScreen extends React.Component {
             <FlatList
               data= {this.state.dataSource}
               ItemSeparatorComponent = {this.FlatListItemSeparator}
-              renderItem= {item=> this.renderItem(item)}
-              keyExtractor= {item=>item.nameSensor.toString()}
-              <Text>-</Text>
+              renderItem= {item=> (
+                <View>
+                  {this.renderItem(item)}
+                  <Button onPress={() => this.DeleteSensorFunction(item)} title="Supprimer"/>
+                </View>
+              )}
+              keyExtractor= {item=>item.idsensor.toString()}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
             />
             <TextInput
               placeholder="Entrez l'id de votre capteur"
@@ -110,6 +159,7 @@ export default class SensorScreen extends React.Component {
               onPress={this.AddSensorFunction}
               title="Ajouter le capteur"
             />
+
           </View>
         );
     }
@@ -117,7 +167,7 @@ export default class SensorScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
     backgroundColor: "#fff"
   },
   loader:{
