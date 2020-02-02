@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
+import Header from '../components/Header';
 
 export default class HomeScreen extends React.Component {
 
@@ -71,6 +72,7 @@ export default class HomeScreen extends React.Component {
     render() {
         return (
           <View style={styles.container}>
+            <Header>Vos données</Header>
             <FlatList
               data= {this.state.dataSource}
               ItemSeparatorComponent = {this.FlatListItemSeparator}
@@ -87,7 +89,9 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    paddingTop: 50,
+    padding : 20
   },
   loader:{
     flex: 1,

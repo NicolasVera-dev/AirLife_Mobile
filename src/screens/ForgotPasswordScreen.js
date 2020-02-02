@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -18,9 +18,44 @@ export default class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        UserLogin: '',
-        UserPassword: ''
+        isLoading : false,
+        UserEmail: '',
     }
+  }
+
+  ChangePasswordFunction = () =>{
+    this.setState({ isLoading: true });
+    const { UserEmail } = this.state ;
+    var details = {
+      'email' : UserEmail,
+    };
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    //192.168.1.14
+    //192.168.43.41
+    fetch("http://192.168.1.14:9090/forgotPassword/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody
+    }).then(response => response.json())
+      .then((responseJson) => {
+        if(responseJson.success){
+          alert("Un mail vient de vous être envoyé");
+          this.setState({ isLoading: false });
+        }
+        else{
+          alert("Cette adresse mail n'existe pas");
+        }
+        })
+      .catch(error=>console.log(error))
   }
 
   render() {
@@ -34,16 +69,17 @@ export default class ForgotPassword extends Component {
         <Header>Mot de passe oublié</Header>
 
         <TextInput
-          placeholder="Entrez votre identifiant (Mail/Login)"
+          placeholder="Entrez votre adresse mail"
           autoCapitalize="none"
-          onChangeText={UserLogin => this.setState({UserLogin})}
+          onChangeText={UserEmail => this.setState({UserEmail})}
           underlineColorAndroid='transparent'
           style={styles.TextInputStyleClass}
         />
 
-        <Button mode="contained" >
+        <Button mode="contained" onPress={this.ChangePasswordFunction}>
           Changer de mot de passe
         </Button>
+        <ActivityIndicator animating={this.state.isLoading} />
 
       </Background>
     );

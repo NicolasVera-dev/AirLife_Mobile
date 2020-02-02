@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, ActivityIndicator, FlatList, TouchableOpacity, Container} from 'react-native';
+import Header from '../components/Header';
+import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 
 export default class SensorScreen extends React.Component {
 
@@ -19,7 +21,8 @@ export default class SensorScreen extends React.Component {
     };
     var formBody = [];
     for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
+      var encodedKey = encodeURIComponent(
+        property);
       var encodedValue = encodeURIComponent(details[property]);
       formBody.push(encodedKey + "=" + encodedValue);
     }
@@ -42,7 +45,7 @@ export default class SensorScreen extends React.Component {
         })
       })
       .catch(error=>console.log(error))
-  }
+  }       
 
   AddSensorFunction = () =>{
     const { IdSensor } = this.state ;
@@ -138,13 +141,14 @@ export default class SensorScreen extends React.Component {
     render() {
         return (
           <View style={styles.container}>
+            <Header>Vos capteurs</Header>
             <FlatList
               data= {this.state.dataSource}
               ItemSeparatorComponent = {this.FlatListItemSeparator}
               renderItem= {item=> (
                 <View>
                   {this.renderItem(item)}
-                  <Button onPress={() => this.DeleteSensorFunction(item)} title="Supprimer"/>
+                  <Ionicons style={styles.trash} onPress={() => this.DeleteSensorFunction(item)} name="ios-trash" color={'red'} size={25} />
                 </View>
               )}
               keyExtractor= {item=>item.idsensor.toString()}
@@ -159,7 +163,6 @@ export default class SensorScreen extends React.Component {
               onPress={this.AddSensorFunction}
               title="Ajouter le capteur"
             />
-
           </View>
         );
     }
@@ -168,17 +171,17 @@ export default class SensorScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
-  },
-  loader:{
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 10,
+    paddingTop: 50,
     backgroundColor: "#fff"
   },
   list:{
     paddingVertical: 4,
     margin: 5,
     backgroundColor: "#fff"
+  },
+  trash:{
+    textAlign: 'right',
+    paddingRight: 20
   }
 });
