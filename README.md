@@ -19,21 +19,32 @@ Ainsi que de trois autres écrans accessibles une fois connecté avec un compte 
 
 # Captures d'écran
 **Ecran de connexion**
+
 ![Ecran de connexion](https://i.ibb.co/vw6mwQz/Screenshot-20200516-160932-host-opt.jpg)
 
+
 **Ecran d'inscription**
+
 ![Ecran d'inscription](https://i.ibb.co/JBthgT1/Screenshot-20200516-160949-host-opt.jpg)
 
+
 **Ecran de mot de passe oublié**
+
 ![Ecran mot de passe oublié](https://i.ibb.co/VxMLjxM/Screenshot-20200516-160936-host-opt.jpg)
 
+
 **Ecran d'accueil**
+
 ![Ecran d'accueil](https://i.ibb.co/6b2N26x/Screenshot-20200516-161005-host-opt.jpg)
 
+
 **Ecran d’informations**
+
 ![Ecran d'informations](https://i.ibb.co/FbbzNQr/Screenshot-20200516-161012-host-opt.jpg)
 
+
 **Ecran de capteurs**
+
 ![Ecran des capteurs](https://i.ibb.co/C6nMYnM/Screenshot-20200516-161018-host-opt.jpg)
 
 
