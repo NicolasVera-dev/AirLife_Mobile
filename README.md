@@ -3,7 +3,7 @@
 
 AirLife est un outil permettant de mesurer la qualité de l'air dans un lieu à l'aide de différents capteurs. Les capteurs transmettent alors les données saisies à un relais qui les transmettra à son tour à une API. Cette API inscrira ces données dans une base de données MySQL. L'utilisateur pourra alors visualiser cela via un site web et une application mobile.
 
- - **Langage utilisé :**  React Native
+ - **Technologie utilisée :**  React Native
  - **IDE :** Visual Studio Code
  - **Année :** 2019-2020
 
