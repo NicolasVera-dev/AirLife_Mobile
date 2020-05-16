@@ -5,7 +5,7 @@ AirLife est un outil permettant de mesurer la qualité de l'air dans un lieu à 
 
  - **Langage utilisé :**  React Native
  - **IDE :** Visual Studio Code
- - **Année :** 2018-2020
+ - **Année :** 2019-2020
 
 L'application est composée de 6 écrans différents dont trois écrans hors connexion tels que :
  - Connexion 
